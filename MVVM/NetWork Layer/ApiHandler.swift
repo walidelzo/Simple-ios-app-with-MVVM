@@ -10,7 +10,6 @@ import Foundation
 class ApiHandler {
     typealias completionPosts = ([Post])->()
     func getPosts (completionPosts:@escaping completionPosts) {
-        //var ArrayOfPosts = [Post]()
         if let url = URL(string: EndPoints.postUrl)  {
             URLSession.shared.dataTask(with: url ,completionHandler: { (data, response, error) in
                 if data != nil {
@@ -33,4 +32,29 @@ class ApiHandler {
             }).resume()
         }
     }
+    
+    //
+    typealias userCompletionHandler = ([User])->()
+    func getUsers(comletionHandler:@escaping userCompletionHandler) {
+        if let userUrl = URL(string: EndPoints.userUrl) {
+            URLSession.shared.dataTask(with: userUrl ,completionHandler: { (data, response, error) in
+                if data != nil {
+                    let jsonDecoder = JSONDecoder()
+                    let userArray = try? jsonDecoder.decode([User].self, from: data!)
+                    if (userArray != nil) {
+                        print(userArray!.count)
+                        comletionHandler(userArray!)
+                    }else {
+                        let userArr = [User]()
+                        comletionHandler(userArr)
+                    }
+                } else {
+                    let userArr = [User]()
+                    comletionHandler(userArr)
+                }
+            }).resume()
+        }
+    }
+        
+    
 }

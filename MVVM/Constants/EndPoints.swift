@@ -9,4 +9,5 @@
 import Foundation
 struct EndPoints {
     static let postUrl = "https://jsonplaceholder.typicode.com/posts"
+    static let userUrl = "https://jsonplaceholder.typicode.com/users"
 }
